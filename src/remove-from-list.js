@@ -22,9 +22,64 @@ const { NotImplementedError } = require('../extensions/index.js');
  *   }
  * }
  */
-function removeKFromList(/* l, k */) {
+
+class ListNode {
+  constructor(x) {
+    this.value = x;
+    this.next = null;
+  }
+}
+
+
+class buildList {
+  constructor() {
+    this.head = null;
+  }
+  add(value) {
+    let newObj = new ListNode(value);
+    if (this.head == null) {
+      this.head = newObj;
+      return;
+    }
+
+    function magic(currObj) {
+      if (currObj.next == null) {
+        currObj.next = newObj;
+        return;
+      } else {
+        magic(currObj.next)
+      }
+    }
+    magic(this.head)
+  }
+
+  remove(value) {
+    if (this.head.value === value) {
+      this.head = this.head.next;
+      return
+    }
+
+    function around(currObj){
+      if (currObj.next.value === value) {
+        currObj.next = currObj.next.next
+        return
+      } else{
+        around(currObj.next)
+      }
+    }
+    around(this.head)
+  }
+}
+
+function removeKFromList(l, k) {
   throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+  let list = new buildList()
+  l.forEach(el => {
+    list.add(el)
+    list.add(el)
+  })
+  list.remove(k)
+
 }
 
 module.exports = {
