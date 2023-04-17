@@ -23,6 +23,18 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  */
 
+function convertArrayToList(arr) {
+  return arr.reverse().reduce((acc, cur) => {
+    if (acc) {
+      const node = new ListNode(cur);
+      node.next = acc;
+      return node;
+    }
+
+    return new ListNode(cur);
+  }, null);
+}
+
 class ListNode {
   constructor(x) {
     this.value = x;
@@ -30,56 +42,22 @@ class ListNode {
   }
 }
 
-
-class buildList {
-  constructor() {
-    this.head = null;
-  }
-  add(value) {
-    let newObj = new ListNode(value);
-    if (this.head == null) {
-      this.head = newObj;
-      return;
-    }
-
-    function magic(currObj) {
-      if (currObj.next == null) {
-        currObj.next = newObj;
-        return;
-      } else {
-        magic(currObj.next)
-      }
-    }
-    magic(this.head)
-  }
-
-  remove(value) {
-    if (this.head.value === value) {
-      this.head = this.head.next;
-      return
-    }
-
-    function around(currObj){
-      if (currObj.next.value === value) {
-        currObj.next = currObj.next.next
-        return
-      } else{
-        around(currObj.next)
-      }
-    }
-    around(this.head)
-  }
-}
-
 function removeKFromList(l, k) {
-  throw new NotImplementedError('Not implemented');
-  let list = new buildList()
-  l.forEach(el => {
-    list.add(el)
-    list.add(el)
-  })
-  list.remove(k)
+  let res = l;
+  let arr = [];
 
+  function around(currObj) {
+    if (currObj.next !== null) {
+      arr.push(currObj.value)
+      around(currObj.next)
+    } else {
+      arr.push(currObj.value)
+    }
+  }
+  around(res)
+  let resArr = arr.filter(el => el !== k);
+  let resObj = convertArrayToList(resArr)
+  return resObj
 }
 
 module.exports = {
